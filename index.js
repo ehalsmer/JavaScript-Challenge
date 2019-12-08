@@ -22,13 +22,27 @@ const data = [
 class MyElement extends LitElement {
   constructor(peopleArray){
     super();
-    this.peopleArray = peopleArray || data // this gives us the option to pass in the initial data as a property
+    this.peopleArray = peopleArray || data; // this gives us the option to pass in the initial data as a property
+    this.inputText = ''
   }
 
   static get properties() {
     return {
-      peopleArray: {type: Array}
+      peopleArray: {type: Array},
+      inputText: {type: String}
     }
+  }
+
+  handleInputChange = (e) => {
+    this.inputText = e.target.value
+  }
+
+  handleAddClick = (e) => {
+    this.peopleArray = [...this.peopleArray, {
+      name: this.inputText,
+      books: 0,
+      starred: false
+    }]
   }
 
   render() {
@@ -59,7 +73,7 @@ class MyElement extends LitElement {
         <span class="mdl-list__item-primary-content">
           <i class="material-icons mdl-list__item-avatar">person</i>
           <span>${person.name}</span>
-          <span class="mdl-list__item-sub-title">${person.books}Books</span>
+          <span class="mdl-list__item-sub-title">${person.books} Books</span>
         </span>
         <span class="mdl-list__item-secondary-content">
           <a class="mdl-list__item-secondary-action" href="#"><i class="material-icons">${person.starred ? 'star' : 'star_border'}</i></a>
@@ -68,10 +82,10 @@ class MyElement extends LitElement {
         )}
     </ul>
     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-      <input class="mdl-textfield__input" type="text" id="sample3">
+      <input class="mdl-textfield__input" type="text" id="sample3" value=${this.inputText} @keyup=${this.handleInputChange}>
       <label class="mdl-textfield__label" for="sample3">Name</label>
     </div>
-    <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+    <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" @click=${this.handleAddClick}>
       <i class="material-icons">add</i>
     </button>
   </div>`;
@@ -84,7 +98,3 @@ class MyElement extends LitElement {
 }
 
 customElements.define('my-element', MyElement);
-
-
-// TODO: render this array onto the page
-
