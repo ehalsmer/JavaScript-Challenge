@@ -33,11 +33,17 @@ class MyElement extends LitElement {
     }
   }
 
+  resetInputText = () => {
+    this.inputText = this.emptyText;
+    performUpdate();
+  }
+
   handleInputChange = (e) => {
     this.inputText = e.target.value
   }
 
-  handleAddClick = (e) => {
+  // adds a person to the data array with default values of 0 books, unstarred. Resets text input to empty string.
+  handleAddClick = async (e) => {
     if (this.inputText !== ''){
       const inputArea = document.querySelector('.mdl-textfield__input')
       inputArea.value = '';
@@ -46,11 +52,12 @@ class MyElement extends LitElement {
         books: 0,
         starred: false
       }]
+      this.inputText = '';
     }
   }
 
+  // updates 'starred' value of person without re-ordering array
   handleStarClick = (index) => {
-    // console.log('Star click: ', index)
     let updatedPerson = {
       ...this.peopleArray[index],
       starred: !this.peopleArray[index].starred
