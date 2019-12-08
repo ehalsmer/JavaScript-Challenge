@@ -38,11 +38,28 @@ class MyElement extends LitElement {
   }
 
   handleAddClick = (e) => {
-    this.peopleArray = [...this.peopleArray, {
-      name: this.inputText,
-      books: 0,
-      starred: false
-    }]
+    if (this.inputText !== ''){
+      const inputArea = document.querySelector('.mdl-textfield__input')
+      inputArea.value = '';
+      this.peopleArray = [...this.peopleArray, {
+        name: this.inputText,
+        books: 0,
+        starred: false
+      }]
+    }
+  }
+
+  handleStarClick = (index) => {
+    // console.log('Star click: ', index)
+    let updatedPerson = {
+      ...this.peopleArray[index],
+      starred: !this.peopleArray[index].starred
+    }
+    this.peopleArray = [
+      ...this.peopleArray.slice(0,index),
+      updatedPerson,
+      ...this.peopleArray.slice(index + 1)
+    ]
   }
 
   render() {
@@ -68,7 +85,7 @@ class MyElement extends LitElement {
     </style>
     <div class="container">
     <ul class="demo-list-two mdl-list">
-      ${this.peopleArray.map((person) => 
+      ${this.peopleArray.map((person, index) => 
         html`<li class="mdl-list__item mdl-list__item--two-line">
         <span class="mdl-list__item-primary-content">
           <i class="material-icons mdl-list__item-avatar">person</i>
@@ -76,7 +93,7 @@ class MyElement extends LitElement {
           <span class="mdl-list__item-sub-title">${person.books} Books</span>
         </span>
         <span class="mdl-list__item-secondary-content">
-          <a class="mdl-list__item-secondary-action" href="#"><i class="material-icons">${person.starred ? 'star' : 'star_border'}</i></a>
+          <a class="mdl-list__item-secondary-action" href="#"><i class="material-icons" @click=${e => this.handleStarClick(index)}>${person.starred ? 'star' : 'star_border'}</i></a>
         </span>
       </li>`
         )}
