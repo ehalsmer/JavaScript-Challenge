@@ -1,4 +1,4 @@
-## Derivita JavaScript Challenge
+## JavaScript Challenge
 
 This is a list component that displays an avatar placeholder, a person's name, number of books, and a star (inactive or active). It was built using [LitElement](https://lit-element.polymer-project.org/), which uses lit-html and Web Components.
 
