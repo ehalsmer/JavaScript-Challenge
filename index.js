@@ -1,5 +1,4 @@
-import {LitElement, html, css} from 'https://unpkg.com/lit-element/lit-element.js?module';
-
+import {LitElement, html} from 'https://unpkg.com/lit-element/lit-element.js?module';
 
 const data = [
   {
@@ -33,17 +32,13 @@ class MyElement extends LitElement {
     }
   }
 
-  resetInputText = () => {
-    this.inputText = this.emptyText;
-    performUpdate();
-  }
-
+  // Saves text from input to state
   handleInputChange = (e) => {
     this.inputText = e.target.value
   }
 
-  // adds a person to the data array with default values of 0 books, unstarred. Resets text input to empty string.
-  handleAddClick = async (e) => {
+  // Adds a person to the data array with default values of 0 books, unstarred. Resets text input to empty string.
+  handleAddClick = async () => {
     if (this.inputText !== ''){
       const inputArea = document.querySelector('.mdl-textfield__input')
       inputArea.value = '';
@@ -56,7 +51,7 @@ class MyElement extends LitElement {
     }
   }
 
-  // updates 'starred' value of person without re-ordering array
+  // Updates 'starred' value of person without re-ordering array
   handleStarClick = (index) => {
     let updatedPerson = {
       ...this.peopleArray[index],
@@ -71,48 +66,48 @@ class MyElement extends LitElement {
 
   render() {
     return html`
-    <style>
-    body{
-      background-color: #eee;
-    }
-    .container{
-      padding: 0 20px 30px;
-      width: 300px;
-      background: white;
-      border: 2px solid #eaeaea;
-      position: fixed;
-      top: 100px;
-      left: 100px;
-    }
-    button{
-      position: absolute !important;
-      right: 20px;
-      bottom: -28px;
-    }
-    </style>
-    <div class="container">
-    <ul class="demo-list-two mdl-list">
-      ${this.peopleArray.map((person, index) => 
-        html`<li class="mdl-list__item mdl-list__item--two-line">
-        <span class="mdl-list__item-primary-content">
-          <i class="material-icons mdl-list__item-avatar">person</i>
-          <span>${person.name}</span>
-          <span class="mdl-list__item-sub-title">${person.books} Books</span>
-        </span>
-        <span class="mdl-list__item-secondary-content">
-          <a class="mdl-list__item-secondary-action" href="#"><i class="material-icons" @click=${e => this.handleStarClick(index)}>${person.starred ? 'star' : 'star_border'}</i></a>
-        </span>
-      </li>`
-        )}
-    </ul>
-    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-      <input class="mdl-textfield__input" type="text" id="sample3" value=${this.inputText} @keyup=${this.handleInputChange}>
-      <label class="mdl-textfield__label" for="sample3">Name</label>
-    </div>
-    <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" @click=${this.handleAddClick}>
-      <i class="material-icons">add</i>
-    </button>
-  </div>`;
+      <style>
+      body{
+        background-color: #eee;
+      }
+      .container{
+        padding: 0 20px 30px;
+        width: 300px;
+        background: white;
+        border: 2px solid #eaeaea;
+        position: fixed;
+        top: 100px;
+        left: 100px;
+      }
+      button{
+        position: absolute !important;
+        right: 20px;
+        bottom: -28px;
+      }
+      </style>
+      <div class="container">
+        <ul class="demo-list-two mdl-list">
+          ${this.peopleArray.map((person, index) => 
+            html`<li class="mdl-list__item mdl-list__item--two-line">
+            <span class="mdl-list__item-primary-content">
+              <i class="material-icons mdl-list__item-avatar">person</i>
+              <span>${person.name}</span>
+              <span class="mdl-list__item-sub-title">${person.books} Books</span>
+            </span>
+            <span class="mdl-list__item-secondary-content">
+              <a class="mdl-list__item-secondary-action" href="#"><i class="material-icons" @click=${() => this.handleStarClick(index)}>${person.starred ? 'star' : 'star_border'}</i></a>
+            </span>
+          </li>`
+            )}
+        </ul>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <input class="mdl-textfield__input" type="text" id="sample3" value=${this.inputText} @keyup=${this.handleInputChange}>
+          <label class="mdl-textfield__label" for="sample3">Name</label>
+        </div>
+        <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" @click=${this.handleAddClick}>
+          <i class="material-icons">add</i>
+        </button>
+      </div>`;
   }
   
   createRenderRoot() {
